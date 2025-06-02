@@ -22,7 +22,7 @@ public class SimpleHttpServer : IDisposable
 
         var responseMessage = new StringBuilder();
 
-        if (requestContext.Request.RawUrl == "Hello-World") responseMessage.Append("Hello, World!");
+        if (requestContext.Request.RawUrl == "/Hello-World!/") responseMessage.Append("Hello, World!");
         else responseMessage.Append($"You asked for the following resource {requestContext.Request.RawUrl}, using the following  http Method {requestContext.Request.HttpMethod}");
 
         requestContext.Response.ContentLength64 = Encoding.UTF8.GetByteCount(responseMessage.ToString());
@@ -31,7 +31,7 @@ public class SimpleHttpServer : IDisposable
         using var outputStream = requestContext.Response.OutputStream;
         using var streamWriter = new StreamWriter(outputStream);
 
-        await streamWriter.WriteAsync(responseMessage);
+        await streamWriter.WriteAsync(responseMessage.ToString());
     }
 
     public void Dispose() => _listener.Close();
